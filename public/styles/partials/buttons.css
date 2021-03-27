@@ -9,12 +9,12 @@
   line-height: 1.625rem;
   text-transform: uppercase;
 
-  transition: all .2s;
+  transition: all 0.2s;
 
-  cursor:pointer;
+  cursor: pointer;
 
   display: inline-flex;
-  justify-content:center;
+  justify-content: center;
   align-items: center;
 }
 
@@ -22,13 +22,25 @@ button.button {
   line-height: 1.5rem;
 }
 
+.button.orange,
+.button.green,
+.button.gray,
+.button.red,
+.button.white {
+  opacity: 0.8;
+}
+
+.button.orange:hover,
+.button.green:hover,
+.button.gray:hover,
+.button.red:hover,
+.button.white:hover {
+  opacity: 1;
+}
+
 .button.orange {
   background: var(--color-secondary);
   color: var(--color-text);
-}
-
-.button.orange:hover {
-  background: #FA9C2D
 }
 
 .button.green {
@@ -36,17 +48,9 @@ button.button {
   color: var(--color-text);
 }
 
-.button.green:hover {
-  background: #3CC73C;
-}
-
 .button.gray {
   color: var(--color-card-content);
   background: var(--color-cancel);
-}
-
-.button.gray:hover {
-  background: #ECEEF0;
 }
 
 .button.red {
@@ -54,17 +58,9 @@ button.button {
   color: var(--color-text);
 }
 
-.button.red:hover {
-  background: #FA3F38;
-}
-
 .button.white {
-  background: #FCFDFF;
-  border: 1px solid #E1E3E6;
-}
-
-.button.white:hover {
-  background: #F0F2F5;
+  background: #fcfdff;
+  border: 1px solid #e1e3e6;
 }
 
 .button-group {
