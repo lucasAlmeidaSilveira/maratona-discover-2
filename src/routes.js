@@ -49,14 +49,14 @@ const Jobs = {
       name: "Pizzaria Guloso",
       "daily-hours": 2,
       "total-hours": 1,
-      createdAt: Date.now(),
+      createdAt: Date.now()
     },
     {
       id: 2,
       name: "OneTwo Projet",
       "daily-hours": 3,
       "total-hours": 47,
-      createdAt: Date.now(),
+      createdAt: Date.now()
     },
   ],
 
@@ -71,7 +71,7 @@ const Jobs = {
           ...job,
           remaining,
           status,
-          budget: Profile.data["value-hour"] * job["total-hours"],
+          budget: Jobs.services.calculateBudget(job, Profile.data["value-hour"])
         };
       });
 
@@ -84,10 +84,10 @@ const Jobs = {
 
     save(req, res) {
       // req.body = { name: 'dawd', 'daily-hours': '3', 'total-hours': '32' }
-      // const ladtId = jobs[jobs.length - 1]?.id || 1  => algoritmo da aula
+      const lastId = Jobs.data[Jobs.data.length - 1]?.id || 0 // algoritmo da aula
 
       Jobs.data.push({
-        id: Jobs.data.length + 1,
+        id: lastId + 1,
         name: req.body.name,
         "daily-hours": req.body["daily-hours"],
         "total-hours": req.body["total-hours"],
@@ -95,6 +95,53 @@ const Jobs = {
       });
       return res.redirect("/");
     },
+
+    show(req,res){
+
+      const jobId = req.params.id
+      const job = Jobs.data.find(job => job.id == jobId)
+
+      if(!job){
+        return res.send('Job not found')
+      }
+
+      job.budget = Jobs.services.calculateBudget(job, Profile.data["value-hour"])
+
+      return res.render(views + "job-edit", { job })
+    },
+
+    update(req, res){
+      const jobId = req.params.id
+      const job = Jobs.data.find(job => job.id == jobId)
+
+      if(!job){
+        return res.send('Job not found')
+      }
+
+      const updatedJob = {
+        ...job,
+        name: req.body.name,
+        "total-hours": req.body["total-hours"],
+        "daily-hours": req.body["daily-hours"]
+      }
+
+      Jobs.data = Jobs.data.map(job =>{
+        if(Number(job.id) === Number(jobId)){
+          job = updatedJob
+        }
+        return job
+      })
+
+      res.redirect('/')
+    },
+
+    delete(req, res){
+      const jobId = req.params.id
+
+      Jobs.data = Jobs.data.filter( job => Number(job.id) !== Number(jobId) ) // quando true, ele mantem no array
+
+      res.redirect('/')
+    }
   },
 
   services: {
@@ -115,16 +162,17 @@ const Jobs = {
       // restam x dias
       return dayDiff;
     },
+    calculateBudget: (job, valueHour) => valueHour * job["total-hours"]
   },
 };
 
 // request, response
 routes.get("/", Jobs.controllers.index);
-
 routes.get("/job", Jobs.controllers.create);
 routes.post("/job", Jobs.controllers.save);
-
-routes.get("/job/edit", (req, res) => res.render(views + "job-edit"));
+routes.get("/job/:id", Jobs.controllers.show);
+routes.post("/job/:id", Jobs.controllers.update);
+routes.post("/job/delete/:id", Jobs.controllers.delete);
 routes.get("/profile", Profile.controllers.index);
 routes.post("/profile", Profile.controllers.update);
 
