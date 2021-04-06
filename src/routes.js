@@ -28,6 +28,15 @@ const Profile = {
       const weekTotalHours = data["days-per-week"] * data["hours-per-day"]
       // total de horas trabalhadas no mês
       const monthlyTotalHours = weekTotalHours * weeksPerMonth
+      // qual valor da minha hora
+      const valueHour = (data["monthly-budget"] / monthlyTotalHours)
+      Profile.data = {
+        ...Profile.data,
+        ...req.body,
+        "value-hour": valueHour
+      }
+
+      return res.redirect('/profile')
 
     }
   }
