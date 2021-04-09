@@ -8,7 +8,7 @@ let data = [
   },
   {
     id: 2,
-    name: "OneTwo Projet",
+    name: "OneTwo Project",
     "daily-hours": 3,
     "total-hours": 47,
     createdAt: Date.now(),
