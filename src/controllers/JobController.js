@@ -3,27 +3,28 @@ const JobUtils = require("../utils/JobUtils");
 const Profile = require("../model/Profile");
 
 module.exports = {
-    create(req, res) {
+  create(req, res) {
     return res.render("job");
   },
 
   save(req, res) {
-    const jobs = Job.get()
+    const jobs = Job.get();
     // req.body = { name: 'dawd', 'daily-hours': '3', 'total-hours': '32' }
     const lastId = jobs[jobs.length - 1]?.id || 0; // algoritmo da aula
 
-    jobs.push({
+    Job.create({
       id: lastId + 1,
       name: req.body.name,
       "daily-hours": req.body["daily-hours"],
       "total-hours": req.body["total-hours"],
       createdAt: Date.now(), // atribuindo data de hoje
-    });
+    })
+    
     return res.redirect("/");
   },
 
   show(req, res) {
-    const jobs = Job.get()
+    const jobs = Job.get();
     const jobId = req.params.id;
 
     const job = jobs.find((job) => job.id == jobId);
@@ -40,7 +41,7 @@ module.exports = {
   },
 
   update(req, res) {
-    const jobs = Job.get()
+    const jobs = Job.get();
     const jobId = req.params.id;
     const job = jobs.find((job) => job.id == jobId);
 
@@ -62,14 +63,14 @@ module.exports = {
       return job;
     });
 
-    Job.update(newJobs)
+    Job.update(newJobs);
 
     res.redirect("/");
   },
 
   delete(req, res) {
     const jobId = req.params.id;
-    Job.delete(jobId)
+    Job.delete(jobId);
 
     res.redirect("/");
   },

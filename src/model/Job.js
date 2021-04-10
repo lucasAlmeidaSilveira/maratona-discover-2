@@ -24,5 +24,8 @@ module.exports = {
   },
   delete(id){
     data = data.filter((job) => Number(job.id) !== Number(id)) // quando true, ele mantem no array */
+  },
+  create(newJob){
+    data.push(newJob)
   }
 }
