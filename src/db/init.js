@@ -36,7 +36,7 @@ await db.run(`INSERT INTO profile(
     value_hour
 ) VALUES(
     "Lucas",
-    "https://avatars.githubusercontent.com/u/72694905?v=4",
+    "https://github.com/lucasAlmeidaSilveira.png",
     3000,
     5,
     5,
