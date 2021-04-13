@@ -21,7 +21,7 @@ module.exports = {
   async update(newData){
     const db = await Database()
 
-    data = db.run(`UPDATE profile SET
+    db.run(`UPDATE profile SET
       name = "${newData.name}",
       avatar = "${newData.avatar}",
       monthly_budget = ${newData["monthly-budget"]},

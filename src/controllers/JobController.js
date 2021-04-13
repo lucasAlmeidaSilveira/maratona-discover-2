@@ -7,13 +7,13 @@ module.exports = {
     return res.render("job");
   },
 
-  save(req, res) {
-    const jobs = Job.get();
+  async save(req, res) {
+    // const jobs = await Job.get();
     // req.body = { name: 'dawd', 'daily-hours': '3', 'total-hours': '32' }
-    const lastId = jobs[jobs.length - 1]?.id || 0; // algoritmo da aula
+    // const lastId = jobs[jobs.length - 1]?.id || 0; // algoritmo da aula
 
-    Job.create({
-      id: lastId + 1,
+    await Job.create({
+      // id: lastId + 1,
       name: req.body.name,
       "daily-hours": req.body["daily-hours"],
       "total-hours": req.body["total-hours"],
@@ -23,8 +23,8 @@ module.exports = {
     return res.redirect("/");
   },
 
-  show(req, res) {
-    const jobs = Job.get();
+  async show(req, res) {
+    const jobs = await Job.get();
     const jobId = req.params.id;
 
     const job = jobs.find((job) => job.id == jobId);
@@ -33,15 +33,15 @@ module.exports = {
       return res.send("Job not found");
     }
 
-    const profile = Profile.get();
+    const profile = await Profile.get();
 
     job.budget = JobUtils.calculateBudget(job, profile["value-hour"]);
 
     return res.render("job-edit", { job });
   },
 
-  update(req, res) {
-    const jobs = Job.get();
+  async update(req, res) {
+    const jobs = await Job.get();
     const jobId = req.params.id;
     const job = jobs.find((job) => job.id == jobId);
 
