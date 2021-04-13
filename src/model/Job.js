@@ -17,18 +17,33 @@ module.exports = {
         })); // aqui seria necessário o returnar esse objeto, mas como não há funções dentro dessa função (como if), coloca-se o parentese antes de abrir a chave {} e retira o return
     },
 
-    update(newJob) {
-        data = newJob;
+    async update(updatedJob, jobId) {
+        const db = await Database();
+
+        await db.run(`UPDATE jobs SET
+            name = "${updatedJob.name}",
+            daily_hours = ${updatedJob["daily-hours"]},
+            total_hours = ${updatedJob["total-hours"]}
+            WHERE id = ${jobId}
+        `);
+
+        await db.close();
     },
 
-    delete(id) {
-        data = data.filter((job) => Number(job.id) !== Number(id)); // quando true, ele mantem no array */
+    async delete(id) {
+        // data = data.filter((job) => Number(job.id) !== Number(id)); // quando true, ele mantem no array */
+
+        const db = await Database();
+
+        db.run(`DELETE FROM jobs WHERE id = ${id}`);
+
+        await db.close();
     },
 
     async create(newJob) {
-      const db = await Database()
+        const db = await Database();
 
-      await db.run(`INSERT INTO jobs (
+        await db.run(`INSERT INTO jobs (
         name,
         daily_hours,
         total_hours,
@@ -38,8 +53,8 @@ module.exports = {
         ${newJob["daily-hours"]},
         ${newJob["total-hours"]},
         ${newJob["createdAt"]}
-      )`)
+      )`);
 
-      db.close()
+        await db.close();
     },
 };
