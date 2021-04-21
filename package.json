@@ -4,6 +4,7 @@
   "description": "Freelance Calculator",
   "main": "src/server.js",
   "scripts": {
+    "build": "node build",
     "start": "node .",
     "dev": "nodemon .",
     "init-db": "node src/db/init.js"
